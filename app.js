@@ -84,3 +84,7 @@ function eventHandler(event) {
 
   }
 }
+
+
+
+// i need to add my while loops to loop throught the each image. i'm not there yet.
