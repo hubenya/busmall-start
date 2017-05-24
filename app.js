@@ -1,9 +1,8 @@
 //global variables
 var imageArray = [];
 var imagesLastShown = [];
-var displayedImages = [];
 var totalCounter = 0;
-var results = document.getElementById('results')
+//
 
 //construction function
 function imageCreator(name, filePath){
@@ -70,41 +69,35 @@ function eventListener(event) {
     if (clickedImageId === imageArray[i].name) {
       imageArray[i].clicks += 1;
       totalCounter += 1;
-      console.log('testing', totalCounter);
+      //console.log('testing', totalCounter);
     }
-
   }
-  if (totalCounter < 5) {
+  if (totalCounter < 26) { //add 26 to make it loop 25 times
     render();
-
+  } else {
+    displayResults();
+    stopGame();
   }
   // else execute function to display function of results
+
+}
+function displayResults() {
+  var listImgArray = [];
+  var fullList = document.getElementById('results');
+  for (var x = 0; x < imageArray.length; x++) {
+    listImgArray.push(`<li>Number of clicks for ${imageArray[x].name}: ${imageArray[x].clicks}</li>`);
+  }
+  fullList.innerHTML = listImgArray.join('');
+}
+function stopGame() {
+  for (var i = 0; i < temImages.length; i++) {
+    temImages[i].removeEventListener('click', eventListener);
+  }
 }
 
-
- //add 25
 var temImages = document.getElementsByClassName('image');
 for (var i = 0; i < temImages.length; i++) {
   temImages[i].addEventListener('click', eventListener);
-
 }
 // randomImage();
 render();
-
-
-
-
-//
-// function handleClick() {
-//   console.log(imagesLastShown.name);
-//   for(var i = 0; i < imageArray.length; i++) {
-//     if (imagesLastShown.name === imageArray[i].name) {
-//       imageArray[i].clicks += 1;
-//     }
-//   }
-// }
-
-
-
-//
-// handleClick();
