@@ -35,9 +35,6 @@ var wineGlass = new imageCreator('wine-glass', './img/wine-glass.jpg');
 var sweep = new imageCreator('sweep', './img/sweep.png');
 var usb = new imageCreator('usb', './img/usb.gif');
 
-// var imageList = [bag, banana, bathroom, boots, breafast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, tauntaun, unicorn, watercan, wineGlass, sweep, usb];
-// console.log('image names', imageList);
-
 
 //i'm suppostu generate random image and get that added to my whlie loop
 function randomImage() {
@@ -45,21 +42,11 @@ function randomImage() {
     var randomNumber = Math.floor(Math.random() * imageArray.length);
     if (imagesLastShown.includes(imageArray[randomNumber]) === false){
       imageArray[randomNumber].imageViews += 1;
-      console.log(imageArray[randomNumber]);
+      //console.log(imageArray[randomNumber]);
       return imageArray[randomNumber];
     }
   }
 }
-
-//function to render randomImages to the page after user clicks on them.
-// function myClicker(click) {
-//   for (var i = 0; i < imageArray.length; i++) {
-//     if (imageArray[i].name === click) {
-//       imageArray[i].clicks ++;
-//       //console.log(imageArray[i].clicks);
-//     }
-//   }
-// }
 
 function render() {
   var newUsedImages = [];
@@ -67,48 +54,57 @@ function render() {
   for (var k = 0; k < myImage.length; k++){
     var newImage = randomImage();
     myImage[k].setAttribute('src', newImage.filePath);
+    myImage[k].setAttribute('id', newImage.name);
+
     imagesLastShown.push(newImage);
     newUsedImages.push(newImage);
-    console.log(newUsedImages);
-    console.log(imagesLastShown);
+    //console.log(newUsedImages);
+    //console.log(imagesLastShown);
   }
   imagesLastShown = newUsedImages;
 }
 
-function eventListener() {
-  render();
+function eventListener(event) {
+  var clickedImageId = event.target.id;
+  for(var i = 0; i < imageArray.length; i++) {
+    if (clickedImageId === imageArray[i].name) {
+      imageArray[i].clicks += 1;
+      totalCounter += 1;
+      console.log('testing', totalCounter);
+    }
+
+  }
+  if (totalCounter < 5) {
+    render();
+
+  }
+  // else execute function to display function of results
 }
+
+
+ //add 25
+var temImages = document.getElementsByClassName('image');
+for (var i = 0; i < temImages.length; i++) {
+  temImages[i].addEventListener('click', eventListener);
+
+}
+// randomImage();
+render();
+
+
+
+
 //
-// //event handler function not connected at the moment but will soon
-// function eventHandler(event) {
-//   if (totalCounter < 24) {
-//     var selected = event.target;
-//     console.log(selected);
-//     console.log(selected.id);
-//     myClicker(selected.id);
-//       totalCounter ++;
-//       imagesLastShown = displayedImages;
-//       displayedImages = [];
-//       document.getElementById('myImage').innerHTML = '';
-//       randomImage(imageArray.length);
-//       render();
-//       console.log(selected.clicks);
-//     } else {
-//       document.getElementById('myImage').innerHTML = '';
-//       var ul = document.createElement('ul');
-//       document.body.appendChild(ul);
-//       for (var d = 0; d < imageArray.length; d++) {
-//         var li = document.createElement('li');
-//         li.innerHTML = imageArray[d].name + ' cliked by user ' + imageArray[d].cliks + ' times and clicked ' + Math.floor(imageArray[d].clicks/imageArray[d].displayCount * 100) + ' precent of times displayed';
-//         results.appendChild('ul')
-//       }
+// function handleClick() {
+//   console.log(imagesLastShown.name);
+//   for(var i = 0; i < imageArray.length; i++) {
+//     if (imagesLastShown.name === imageArray[i].name) {
+//       imageArray[i].clicks += 1;
 //     }
 //   }
 // }
-var temImages = document.getElementsByClassName('image')
-for (var i = 0; i < temImages.length; i++) {
-  temImages[i].addEventListener('click', eventListener);
-}
-render();
 
-// i need to add my while loops to loop throught the each image. i'm not there yet.
+
+
+//
+// handleClick();

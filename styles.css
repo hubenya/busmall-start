@@ -83,8 +83,8 @@ main {
 }
 img {
   position: relative;
-  height: 250px;
-	width: 250px;
+  height: 300px;
+	width: 300px;
   padding: 5px;
   border-radius: 20%;
   border: 3px solid #665544;
