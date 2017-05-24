@@ -54,7 +54,6 @@ function render() {
     var newImage = randomImage();
     myImage[k].setAttribute('src', newImage.filePath);
     myImage[k].setAttribute('id', newImage.name);
-
     imagesLastShown.push(newImage);
     newUsedImages.push(newImage);
     //console.log(newUsedImages);
