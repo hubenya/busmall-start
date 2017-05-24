@@ -46,7 +46,7 @@ function randomImage() {
     }
   }
 }
-
+//Here is wher i uppend images to my page
 function render() {
   var newUsedImages = [];
   var myImage = document.getElementsByClassName('image');
@@ -61,7 +61,7 @@ function render() {
   }
   imagesLastShown = newUsedImages;
 }
-
+//event listener 
 function eventListener(event) {
   var clickedImageId = event.target.id;
   for(var i = 0; i < imageArray.length; i++) {
