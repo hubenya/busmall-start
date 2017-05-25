@@ -1,5 +1,7 @@
 //global variables
 var imageArray = [];
+var myChartLabels = [];
+var myChartData = [];
 var imagesLastShown = [];
 var totalCounter = 0;
 //
@@ -62,6 +64,40 @@ function render() {
   imagesLastShown = newUsedImages;
 }
 
+//add chart function
+function addChartData(){
+  for(var h = 0; h < imageArray.length; h++){
+    myChartLabels.push(imageArray[h].name);
+    myChartData.push(imageArray[h].clicks);
+  }
+}
+
+function buildChart(){
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: myChartLabels,
+      datasets: [{
+        label: 'times images chosen',
+        data: myChartData,
+        backgroundColor: 'orange',
+      }]
+    },
+    options: {
+      scales:{
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
+
 function eventListener(event) {
   var clickedImageId = event.target.id;
   for(var i = 0; i < imageArray.length; i++) {
@@ -74,24 +110,27 @@ function eventListener(event) {
   if (totalCounter < 26) { //add 26 to make it loop 25 times
     render();
   } else {
-    displayResults();
+    //displayResults();
     stopGame();
+
   }
   // else execute function to display function of results
 
 }
-function displayResults() {
-  var listImgArray = [];
-  var fullList = document.getElementById('results');
-  for (var x = 0; x < imageArray.length; x++) {
-    listImgArray.push(`<li>Number of clicks for ${imageArray[x].name}: ${imageArray[x].clicks}</li>`);
-  }
-  fullList.innerHTML = listImgArray.join('');
-}
+// function displayResults() {
+//   var listImgArray = [];
+//   var fullList = document.getElementById('results');
+//   for (var x = 0; x < imageArray.length; x++) {
+//     listImgArray.push(`<li>Number of clicks for ${imageArray[x].name}: ${imageArray[x].clicks}</li>`);
+//   }
+//   fullList.innerHTML = listImgArray.join('');
+// }
 function stopGame() {
   for (var i = 0; i < temImages.length; i++) {
     temImages[i].removeEventListener('click', eventListener);
   }
+  addChartData();
+  buildChart();
 }
 
 var temImages = document.getElementsByClassName('image');
