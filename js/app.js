@@ -6,11 +6,11 @@ var chartDisplayData = [];
 var imagesLastShown = [];
 var totalCounter = 0;
 
-if (localStorage.myChartData && localStorage.chartDisplayData) {
-  myChartData = localStorage.myChartData.split(',');
-  chartDisplayData = localStorage.chartDisplayData.split(',');
-  totalCounter = 25;
-}
+// if (localStorage.myChartData && localStorage.chartDisplayData) {
+//   myChartData = localStorage.myChartData.split(',');
+//   chartDisplayData = localStorage.chartDisplayData.split(',');
+//   totalCounter = 25;
+// }
 
 //construction function
 function imageCreator(name, filePath){
