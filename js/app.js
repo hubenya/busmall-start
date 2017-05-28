@@ -1,8 +1,16 @@
 //global variables
 var imageArray = [];
+var myChartLabels = [];
+var myChartData = [];
+var chartDisplayData = [];
 var imagesLastShown = [];
 var totalCounter = 0;
-//
+
+// if (localStorage.myChartData && localStorage.chartDisplayData) {
+//   myChartData = localStorage.myChartData.split(',');
+//   chartDisplayData = localStorage.chartDisplayData.split(',');
+//   totalCounter = 25;
+// }
 
 //construction function
 function imageCreator(name, filePath){
@@ -34,7 +42,6 @@ var wineGlass = new imageCreator('wine-glass', './img/wine-glass.jpg');
 var sweep = new imageCreator('sweep', './img/sweep.png');
 var usb = new imageCreator('usb', './img/usb.gif');
 
-
 //i'm suppostu generate random image and get that added to my whlie loop
 function randomImage() {
   while (true) {
@@ -46,7 +53,7 @@ function randomImage() {
     }
   }
 }
-
+//Here is wher i uppend images to my page
 function render() {
   var newUsedImages = [];
   var myImage = document.getElementsByClassName('image');
@@ -61,6 +68,42 @@ function render() {
   }
   imagesLastShown = newUsedImages;
 }
+//event listener
+
+//add chart function
+function addChartData(){
+  for(var h = 0; h < imageArray.length; h++){
+    myChartLabels.push(imageArray[h].name);
+    myChartData.push(imageArray[h].clicks);
+    chartDisplayData.push(imageArray[h].displayCount);
+  }
+}
+
+function buildChart(){
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+
+  var myChart = new Chart(ctx, {  // this is dumb linetel error it does not do anything
+    type: 'bar',
+    data: {
+      labels: myChartLabels,
+      datasets: [{
+        label: 'times images chosen',
+        data: myChartData,
+        backgroundColor: 'orange',
+      }]
+    },
+    options: {
+      scales:{
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
 
 function eventListener(event) {
   var clickedImageId = event.target.id;
@@ -74,24 +117,23 @@ function eventListener(event) {
   if (totalCounter < 26) { //add 26 to make it loop 25 times
     render();
   } else {
-    displayResults();
+    //displayResults();
     stopGame();
+    save();
   }
-  // else execute function to display function of results
+}
 
-}
-function displayResults() {
-  var listImgArray = [];
-  var fullList = document.getElementById('results');
-  for (var x = 0; x < imageArray.length; x++) {
-    listImgArray.push(`<li>Number of clicks for ${imageArray[x].name}: ${imageArray[x].clicks}</li>`);
-  }
-  fullList.innerHTML = listImgArray.join('');
-}
 function stopGame() {
   for (var i = 0; i < temImages.length; i++) {
     temImages[i].removeEventListener('click', eventListener);
   }
+  addChartData();
+  buildChart();
+}
+
+function save() {
+  localStorage.myChartData = myChartData;
+  localStorage.chartDisplayData = chartDisplayData;
 }
 
 var temImages = document.getElementsByClassName('image');
